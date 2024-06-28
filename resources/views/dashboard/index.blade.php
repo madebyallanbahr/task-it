@@ -7,7 +7,7 @@
 </head>
 <body>
     <main>
-
+        <p>Dashboard</p>
     </main>
 </body>
 </html>
