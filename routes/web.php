@@ -6,21 +6,24 @@ use App\Http\Controllers\Project\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('auth');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard.index')
-    ->middleware('auth');
+Route::prefix('dashboard')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])
+        ->name('dashboard.index')
+        ->middleware('auth');
 
-Route::get('/dashboard/tasks', [DashboardController::class, 'tasks'])
-    ->name('dashboard.tasks')
-    ->middleware('auth');
+    Route::get('/dashboard/tasks', [DashboardController::class, 'tasks'])
+        ->name('dashboard.tasks')
+        ->middleware('auth');
 
 
-Route::get('/dashboard/projects', [DashboardController::class, 'projects'])
-    ->name('dashboard.projects')
-    ->middleware('auth');
+    Route::get('/dashboard/projects', [DashboardController::class, 'projects'])
+        ->name('dashboard.projects')
+        ->middleware('auth');
+});
+
 
 Route::prefix('auth')->group(function () {
     Route::get('/', [AuthController::class, 'index'])->name('auth');
