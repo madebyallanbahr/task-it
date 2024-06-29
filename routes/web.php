@@ -6,7 +6,7 @@ use App\Http\Controllers\Project\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect('auth');
+    return redirect(route('login'));
 });
 
 Route::prefix('dashboard')->group(function () {
@@ -26,9 +26,10 @@ Route::prefix('dashboard')->group(function () {
 
 
 Route::prefix('auth')->group(function () {
-    Route::get('/', [AuthController::class, 'index'])->name('auth');
+    Route::get('/', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
     Route::post('/register', [AuthController::class, 'store'])->name('auth.register');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 });
 

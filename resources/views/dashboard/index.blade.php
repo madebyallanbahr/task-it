@@ -8,12 +8,14 @@
 </head>
 <body>
     <nav class="nav navbar-nav">
-        <a href="#" class="nav-link">Tarefas</a>
-        <a href="#" class="nav-link">Projetos</a>
+        <a href="{{route('dashboard.tasks')}}" class="nav-link">Tarefas</a>
+        <a href="{{route('dashboard.projects')}}" class="nav-link">Projetos</a>
     </nav>
     <main>
-        <p>Dashboard</p>
-
+        <form method="post" action="{{route('auth.logout')}}">
+            @csrf
+            <button  class="btn btn-close"></button>
+        </form>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
