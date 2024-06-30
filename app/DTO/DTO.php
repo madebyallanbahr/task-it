@@ -4,9 +4,10 @@ namespace App\DTO;
 
 use App\Interfaces\AbstractDTO;
 
-class DTO implements AbstractDTO
+abstract class DTO implements AbstractDTO
 {
-    public function get_keys() {
+    private function get_keys(): array
+    {
         return get_object_vars($this);
     }
 

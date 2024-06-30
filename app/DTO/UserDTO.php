@@ -17,6 +17,6 @@ class UserDTO extends DTO
 
     public static function fromRequest(StoreUserRequest $request): UserDTO
     {
-        return new UserDTO(...$request->validated());
+        return new self(...$request->validated());
     }
 }
