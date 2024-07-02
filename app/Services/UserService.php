@@ -3,12 +3,13 @@
 namespace App\Services;
 
 use App\DTO\UserDTO;
+use App\Interfaces\UserInterface;
 use App\Models\User;
 
-class UserService
+class UserService implements UserInterface
 {
-     public function store(UserDTO $dto)
+     public function store(UserDTO $userDTO) : User
      {
-        return User::create($dto->toArray());
+        return User::create($userDTO->toArray());
      }
 }

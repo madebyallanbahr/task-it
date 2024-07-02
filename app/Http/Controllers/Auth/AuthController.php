@@ -5,13 +5,21 @@ namespace App\Http\Controllers\Auth;
 use App\DTO\UserDTO;
 use App\Http\Requests\AuthUserRequest;
 use App\Http\Requests\StoreUserRequest;
-use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class AuthController
 {
+
+    public UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function index() : View
     {
         return view('auth');
@@ -30,8 +38,9 @@ class AuthController
 
       return redirect()->intended(route('login'));
     }
-    public function store(StoreUserRequest $request){
-
+    public function store(StoreUserRequest $request): void
+    {
+        $this->userService->store(UserDTO::fromStoreUserRequest($request));
     }
 
 }
