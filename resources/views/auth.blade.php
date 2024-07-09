@@ -48,12 +48,6 @@
             </div>
         </div>
         <div class="uk-margin">
-            <label class="uk-form-label">CPF</label>
-            <div class="uk-form-controls uk-margin-small">
-                <input placeholder="CPF" name="document" id="document" type="text" class="uk-input"/>
-            </div>
-        </div>
-        <div class="uk-margin">
             <label class="uk-form-label">E-mail</label>
             <div class="uk-form-controls uk-margin-small">
                 <input placeholder="E-mail" name="email" id="email" type="email" class="uk-input"/>
