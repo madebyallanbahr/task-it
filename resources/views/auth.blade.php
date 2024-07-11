@@ -34,7 +34,7 @@
             <a href class="uk-alert-close" uk-close></a>
             <div class="uk-alert-title">Aviso!</div>
             <div class="uk-alert-description uk-text-muted">
-                Suas informações estão não são armazenadas nem informadas a terceiros. O processamento de dados é totalmente seguro.
+                Suas informações não são informadas a terceiros. O processamento de dados é totalmente seguro.
             </div>
         </div>
         <button class="uk-button uk-button-primary uk-width-large">Entrar</button>
@@ -63,7 +63,7 @@
             <a href class="uk-alert-close" uk-close></a>
             <div class="uk-alert-title">Aviso!</div>
             <div class="uk-alert-description uk-text-muted">
-                Suas informações estão não são armazenadas nem informadas a terceiros. O processamento de dados é totalmente seguro.
+                Suas informações não são informadas a terceiros. O processamento de dados é totalmente seguro.
             </div>
         </div>
         <button class="uk-button uk-button-primary uk-width-large">Criar Conta</button>

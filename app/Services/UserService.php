@@ -15,6 +15,11 @@ class UserService implements UserInterface
 {
     private UserRepository $userRepository;
 
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
      public function store(UserDTO $userDTO) : User
      {
         return $this->userRepository->store($userDTO);
