@@ -38,9 +38,11 @@ class AuthController
 
       return redirect()->intended(route('login'));
     }
-    public function store(StoreUserRequest $request): void
+    public function store(StoreUserRequest $request): RedirectResponse
     {
         $this->userService->store(UserDTO::fromStoreUserRequest($request));
+
+        return redirect()->back();
     }
 
 }
