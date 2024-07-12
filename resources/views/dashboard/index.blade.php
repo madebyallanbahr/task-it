@@ -42,21 +42,23 @@
         <div class="uk-card-header">
             <h3 class="uk-card-title">Informações pessoais</h3>
             <p class="uk-margin-small-top uk-text-small text-muted-foreground">
-                Deploy your new project in one-click.
+                Altere suas informações pessoais aqui.
             </p>
         </div>
         <div class="uk-card-body uk-padding-remove-top uk-padding-remove-bottom">
             <div class="">
-                <label class="uk-form-label" for="name">Name</label>
+                <label class="uk-form-label" for="name">Nome</label>
                 <input
                     class="uk-input"
                     id="name"
                     type="text"
                     aria-describedby="name-help-block"
-                    placeholder="Name"
+                    placeholder="Nome"
+                    readonly
+                    value="{{$user->name}}"
                 />
-                <div id="name-help-block" class="uk-form-help">
-                    The name of your project.
+                <div id="name-help-block" class="uk-form-help text-muted-foreground">
+                    Seu nome completo
                 </div>
             </div>
 
