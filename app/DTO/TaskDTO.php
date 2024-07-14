@@ -6,7 +6,6 @@ use App\Enums\PriorityEnum;
 use App\Enums\StatusEnum;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use Illuminate\Support\Facades\Hash;
 
 class TaskDTO extends DTO
 {
