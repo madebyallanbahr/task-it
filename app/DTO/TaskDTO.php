@@ -4,6 +4,7 @@ namespace App\DTO;
 
 use App\Enums\PriorityEnum;
 use App\Enums\StatusEnum;
+use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
@@ -22,7 +23,7 @@ class TaskDTO extends DTO
     {
     }
 
-    public static function fromStoreUserRequest(StoreUserRequest $request): UserDTO
+    public static function fromRequest(StoreTaskRequest $request): TaskDTO
     {
         return new self(...$request->validated());
     }
