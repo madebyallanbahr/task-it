@@ -14,12 +14,12 @@ Route::prefix('dashboard')->group(function () {
         ->name('dashboard.index')
         ->middleware('auth');
 
-    Route::get('/dashboard/tasks', [DashboardController::class, 'tasks'])
+    Route::get('/tasks', [DashboardController::class, 'tasks'])
         ->name('dashboard.tasks')
         ->middleware('auth');
 
 
-    Route::get('/dashboard/projects', [DashboardController::class, 'projects'])
+    Route::get('/projects', [DashboardController::class, 'projects'])
         ->name('dashboard.projects')
         ->middleware('auth');
 });
