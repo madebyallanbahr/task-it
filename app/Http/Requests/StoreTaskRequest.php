@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\PriorityEnum;
+use App\Enums\StatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTaskRequest extends FormRequest
 {
@@ -11,7 +14,7 @@ class StoreTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -22,7 +25,19 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'max:64', 'min:3'],
+            'description' => ['required', 'max:128', 'min:3'],
+            'status' => ['required', Rule::in(StatusEnum::cases())],
+            'priority' => ['required', Rule::in(PriorityEnum::cases())],
+            'due_date' => ['date', 'nullable'],
+            'project_id' => ['exists:projects,id', 'nullable'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            '*' => 'Os dados que você inseriu estão inválidos.'
         ];
     }
 }

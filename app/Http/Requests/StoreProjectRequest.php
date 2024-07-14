@@ -11,7 +11,7 @@ class StoreProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -22,7 +22,14 @@ class StoreProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'min:3'],
+            'description' => ['required', 'min:3', 'max:64'],
+        ];
+    }
+    public function messages(): array
+    {
+        return [
+            '*' => 'Dados informados são inválidos.'
         ];
     }
 }

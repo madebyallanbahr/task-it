@@ -13,12 +13,4 @@ class DashboardController extends Controller
 
         return view('dashboard.index', ['user' => $user]);
     }
-    public function tasks() : View
-    {
-        return view('dashboard.tasks');
-    }
-    public function projects() : View
-    {
-        return view('dashboard.projects');
-    }
 }
