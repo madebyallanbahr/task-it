@@ -19,7 +19,7 @@ class TaskController extends Controller
 
     public function index()
     {
-//        todo: fazer paginação
+//        todo: fazer paginação / conclusão de tarefas/mudança de status
 //        $tasks->withPath('/admin/users');
         return view('tasks.index', ['tasks' => auth()->user()->tasks()->paginate(5)]);
     }
