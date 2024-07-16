@@ -3,7 +3,13 @@
 ---
 
 Task-it é uma aplicação web desenvolvida em PHP utilizando o framework Laravel. É uma ferramenta para uso educacional, profissional ou comum. Auxiliadora no dia a dia para estipulação de tarefas e o gerenciamento das mesmas, oferecendo uma boa dinâmica e organização para os utilizadores. Além, também do seu gerenciamento de projetos que são atribuidos as tarefas criadas.
-Características Principais
+
+
+Programado por @Allan Bahr.
+
+Idealizado por @Allan Bahr / @Isabel Silveira / @Kaue Rodriguez / @Gabriel Nobre / @Mariana Barbier
+
+Projeto realizado para projeto integrador da UCPEL que visava desenvolver uma aplicação PHP com uma interface gráfica que fosse web e favorece a ideia de um aplicativo.
 
 ---
 
