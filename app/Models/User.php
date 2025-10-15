@@ -18,6 +18,9 @@ class User extends Authenticated
         'name',
         'email',
         'password',
+        'framework_preference',
+        'theme_preference',
+        'language_preference',
     ];
 
     protected $hidden = [

@@ -1,88 +1,175 @@
-<!DOCTYPE html>
-<html lang="pt-br" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarefas</title>
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/franken-wc@0.0.2/dist/css/neutral.min.css"
-    />
-</head>
-<body class="uk-background-default text-primary">
-    @if(isset($tasks) && $tasks->count() <= 0)
-        <div class="uk-flex-center uk-position-center uk-alert" uk-alert>
-            <a href class="uk-alert-close" uk-close></a>
-            <h3 class="uk-alert-title uk-text-large">Aviso</h3>
-            <p class="uk-alert-description text-muted-foreground">Você não tem tarefas ativas.</p>
-            <form method="get" action="{{route('tasks.create')}}">
-                <button class="uk-button uk-button-default uk-margin-top">Criar Tarefa</button>
-            </form>
+@extends('layouts.app')
+
+@section('title', 'Tarefas')
+
+@section('content')
+<nav class="uk-navbar-container" uk-navbar>
+    <div class="uk-container">
+        <div class="uk-navbar-left">
+            <ul class="uk-navbar-nav">
+                <li>
+                    <a href="{{route('dashboard.index')}}">
+                        <span uk-icon="thumbnails" class="uk-margin-small-right"></span>Dashboard
+                    </a>
+                </li>
+                <li class="uk-active">
+                    <a href="{{route('tasks.index')}}">
+                        <span uk-icon="folder" class="uk-margin-small-right"></span>Tarefas
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('projects.index')}}">
+                        <span uk-icon="album" class="uk-margin-small-right"></span>Projetos
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="uk-navbar-right">
+            <ul class="uk-navbar-nav">
+                <li>
+                    <a href="#">
+                        <span uk-icon="user" class="uk-margin-small-right"></span>Usuário
+                        <span uk-navbar-parent-icon></span>
+                    </a>
+                    <div class="uk-navbar-dropdown" uk-dropdown>
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li><a href="{{route('settings.index')}}"><span uk-icon="cog" class="uk-margin-small-right"></span>Configurações</a></li>
+                            <li class="uk-nav-divider"></li>
+                            <li>
+                                <form method="post" action="{{route('auth.logout')}}" class="uk-display-inline">
+                                    @csrf
+                                    <button type="submit" class="uk-btn uk-btn-text uk-text-left uk-width-1-1">
+                                        <span uk-icon="sign-out" class="uk-margin-small-right"></span>Sair
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="uk-container uk-margin-top">
+    <div class="uk-grid-match uk-child-width-1-1" uk-grid>
+        <div>
+            <div class="fr-widget border-border bg-background text-foreground md:border md:p-6">
+                <div class="flex flex-col space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h1 class="uk-h4">Suas Tarefas</h1>
+                            <p class="text-muted-foreground">Gerencie e organize suas tarefas diárias.</p>
+                        </div>
+                        <a href="{{route('tasks.create')}}" class="uk-btn uk-btn-primary">
+                            <span uk-icon="plus" class="uk-margin-small-right"></span>Nova Tarefa
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @if(isset($tasks) && $tasks->count() > 0)
+        <!-- Tasks Table -->
+        <div class="uk-margin-top">
+            <div class="fr-widget border-border bg-background text-foreground md:border">
+                <div class="uk-overflow-auto">
+                    <table class="uk-table uk-table-hover uk-table-divider">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Status</th>
+                                <th>Prioridade</th>
+                                <th>Data de Vencimento</th>
+                                <th>Projeto</th>
+                                <th>Favorita</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($tasks as $task)
+                                <tr>
+                                    <td>
+                                        <div class="font-medium">{{ $task->name }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="text-sm text-muted-foreground max-w-xs truncate">
+                                            {{ $task->description ?: 'Sem descrição' }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="uk-badge uk-badge-{{ $task->status == 'completed' ? 'success' : ($task->status == 'in_progress' ? 'warning' : 'secondary') }}">
+                                            {{ ucfirst($task->status) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="uk-badge uk-badge-{{ $task->priority == 'high' ? 'danger' : ($task->priority == 'medium' ? 'warning' : 'success') }}">
+                                            {{ ucfirst($task->priority) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if($task->due_date)
+                                            <div class="text-sm">
+                                                {{ \Carbon\Carbon::parse($task->due_date)->format('d/m/Y') }}
+                                            </div>
+                                        @else
+                                            <span class="text-muted-foreground">N/A</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($task->project_id)
+                                            <div class="text-sm">{{ $task->project_id }}</div>
+                                        @else
+                                            <span class="text-muted-foreground">N/A</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($task->favorite)
+                                            <span uk-icon="star" class="uk-text-warning"></span>
+                                        @else
+                                            <span class="text-muted-foreground">-</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="flex space-x-1">
+                                            <a href="{{route('tasks.edit', $task->id)}}" class="uk-btn uk-btn-small uk-btn-default">
+                                                <span uk-icon="pencil"></span>
+                                            </a>
+                                            <form method="post" action="{{route('tasks.destroy', $task->id)}}" class="uk-display-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="uk-btn uk-btn-small uk-btn-danger" 
+                                                        onclick="return confirm('Tem certeza que deseja excluir esta tarefa?')">
+                                                    <span uk-icon="trash"></span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     @else
-            <div class="uk-container uk-container-small uk-position-center uk-flex-center uk-overflow-auto">
-            <table class="uk-table-middle uk-table uk-table-small uk-table-justify uk-table-hover uk-table-divider">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Descrição</th>
-                        <th>Status</th>
-                        <th>Prioridade</th>
-                        <th>Data de Validade</th>
-                        <th>Projeto</th>
-                        <th>Favorita</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach($tasks as $task)
-                    <tr>
-                        <td>
-                            {{$task->name}}
-                        </td>
-                        <td>
-                            {{$task->description}}
-                        </td>
-                        <td>
-                            {{$task->status}}
-                        </td>
-                        <td>
-                            {{$task->priority}}
-                        </td>
-                        <td>
-                            @if(is_null($task->due_date))
-                                N/A
-                            @else
-                                {{$task->due_date}}
-                            @endif
-                        </td>
-                        <td>
-                            {{$task->project_id}}
-                        </td>
-                        <td>
-                            {{$task->favorite}}
-                        </td>
-                        <td>
-                            <form>
-                                @csrf
-                                <button class="uk-button uk-button-default"><span class="uk-icon" uk-icon="pencil"></span></button>
-                                @method('DELETE')
-                                <button formmethod="post" formaction="{{route("tasks.destroy", $task->id)}}" class="uk-button uk-button-danger"><span class="uk-icon" uk-icon="trash"></span></button>
-                            </form>
-                        </td>
-                    </tr>
-                  @endforeach
-                </tbody>
-            </table>
+        <!-- Empty State -->
+        <div class="uk-margin-top">
+            <div class="fr-widget border-border bg-background text-foreground md:border md:p-6">
+                <div class="text-center py-12">
+                    <div class="mb-4">
+                        <span uk-icon="folder" class="uk-text-muted" style="font-size: 4rem;"></span>
+                    </div>
+                    <h3 class="uk-h4 mb-2">Nenhuma tarefa encontrada</h3>
+                    <p class="text-muted-foreground mb-6">Comece criando sua primeira tarefa para organizar seu trabalho.</p>
+                    <a href="{{route('tasks.create')}}" class="uk-btn uk-btn-primary">
+                        <span uk-icon="plus" class="uk-margin-small-right"></span>Criar Primeira Tarefa
+                    </a>
+                </div>
             </div>
+        </div>
     @endif
-<div class="uk-margin-small-top uk-margin-small-right uk-position-top-right">
-    <form method="get" action="{{route('dashboard.index')}}">
-        @csrf
-        <button class="uk-button uk-button-ghost"><span uk-icon="icon: arrow-left" class="uk-margin-small-right"></span></button>
-    </form>
-</div>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.5/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.5/dist/js/uikit-icons.min.js"></script>
-</body>
-</html>
+</main>
+@endsection

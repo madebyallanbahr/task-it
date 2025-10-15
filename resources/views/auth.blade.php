@@ -1,96 +1,177 @@
-<!DOCTYPE html>
-<html class="dark" lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>taskit</title>
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/franken-wc@0.0.2/dist/css/neutral.min.css"
-    />
-</head>
-<body class="uk-background-default text-primary">
-    <div class="uk-align-center uk-width-large">
-        <ul class="uk-tab-alt uk-margin-top">
-            <li id="login-btn-action"><a href="#">Entrar</a></li>
-            <li id="register-btn-action"><a href="#">Criar Conta</a></li>
-        </ul>
+@extends('layouts.app')
+
+@section('title', 'TaskIt - Autenticação')
+
+@section('content')
+<div class="flex min-h-svh items-center justify-center p-4 md:bg-muted md:p-10">
+    <div class="w-full max-w-md">
+        <div class="mb-6 flex justify-center">
+            <a href="#">
+                <h1 class="uk-h3 text-2xl font-bold text-primary">TaskIt</h1>
+            </a>
+        </div>
+        
+        <div class="fr-widget border-border bg-background text-foreground md:border md:p-6">
+            <div class="flex flex-col space-y-1.5">
+                <h1 class="uk-h4">Acesse sua conta</h1>
+                <p class="text-muted-foreground">
+                    Digite suas credenciais abaixo para fazer login em sua conta.
+                </p>
+            </div>
+            
+            <!-- Tab Navigation -->
+            <div class="mt-6">
+                <ul class="uk-tab-alt" uk-tab>
+                    <li id="login-btn-action" class="uk-active">
+                        <a href="#">Entrar</a>
+                    </li>
+                    <li id="register-btn-action">
+                        <a href="#">Criar Conta</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="mt-6 space-y-6" id="login-form" method="post" action="{{route('auth.login')}}">
+                @csrf
+                <div class="grid gap-y-1">
+                    <label class="uk-form-label" for="login-email">E-mail</label>
+                    <input
+                        class="uk-input"
+                        id="login-email"
+                        name="email"
+                        type="email"
+                        placeholder="seu@email.com"
+                        required
+                    />
+                </div>
+                
+                <div class="grid gap-y-1">
+                    <label class="uk-form-label" for="login-password">Senha</label>
+                    <input
+                        class="uk-input"
+                        id="login-password"
+                        name="password"
+                        type="password"
+                        placeholder="Sua senha"
+                        required
+                    />
+                </div>
+                
+                <div class="flex justify-between">
+                    <label for="remember">
+                        <input name="remember" type="hidden" value="0" />
+                        <input
+                            class="uk-checkbox mr-1"
+                            id="remember"
+                            name="remember"
+                            type="checkbox"
+                            value="1"
+                        />
+                        Lembrar de mim
+                    </label>
+                    <a class="uk-link" href="#">Esqueceu a senha?</a>
+                </div>
+                
+                <button class="uk-btn uk-btn-primary block w-full" type="submit">
+                    Entrar
+                </button>
+            </form>
+            
+            <!-- Register Form -->
+            <form class="mt-6 space-y-6" id="register-form" method="post" action="{{route('auth.register')}}" style="display: none">
+                @csrf
+                <div class="grid gap-y-1">
+                    <label class="uk-form-label" for="register-name">Nome Completo</label>
+                    <input
+                        class="uk-input"
+                        id="register-name"
+                        name="name"
+                        type="text"
+                        placeholder="Seu nome completo"
+                        required
+                    />
+                </div>
+                
+                <div class="grid gap-y-1">
+                    <label class="uk-form-label" for="register-email">E-mail</label>
+                    <input
+                        class="uk-input"
+                        id="register-email"
+                        name="email"
+                        type="email"
+                        placeholder="seu@email.com"
+                        required
+                    />
+                </div>
+                
+                <div class="grid gap-y-1">
+                    <label class="uk-form-label" for="register-password">Senha</label>
+                    <input
+                        class="uk-input"
+                        id="register-password"
+                        name="password"
+                        type="password"
+                        placeholder="Sua senha"
+                        required
+                    />
+                </div>
+                
+                <div class="grid gap-y-1">
+                    <label class="uk-form-label" for="register-password-confirm">Confirmar Senha</label>
+                    <input
+                        class="uk-input"
+                        id="register-password-confirm"
+                        name="password_confirmation"
+                        type="password"
+                        placeholder="Confirme sua senha"
+                        required
+                    />
+                </div>
+                
+                <button class="uk-btn uk-btn-primary block w-full" type="submit">
+                    Criar Conta
+                </button>
+            </form>
+            
+            <div class="uk-alert uk-alert-primary mt-6" uk-alert>
+                <a href class="uk-alert-close" uk-close></a>
+                <div class="uk-alert-title">Aviso!</div>
+                <div class="uk-alert-description">
+                    Suas informações não são informadas a terceiros. O processamento de dados é totalmente seguro.
+                </div>
+            </div>
+        </div>
     </div>
-    <form class="uk-width-large uk-align-center" id="login-form" method="post" action="{{route('auth.login')}}" style="display: none">
-        @csrf
-        <div class="uk-margin">
-            <label class="uk-form-label">E-mail</label>
-            <div class="uk-form-controls uk-margin-small">
-                <input placeholder="E-mail" name="email" id="email" type="email" class="uk-input"/>
-            </div>
-        </div>
-        <div class="uk-margin">
-            <div class="uk-form-label">Senha</div>
-            <div class="uk-form-controls uk-margin-small uk-form-controls-text">
-                <input placeholder="Senha" name="password" id="password" type="password"  class="uk-input"/>
-            </div>
-        </div>
-        <div class="uk-alert uk-margin" uk-alert>
-            <a href class="uk-alert-close" uk-close></a>
-            <div class="uk-alert-title">Aviso!</div>
-            <div class="uk-alert-description uk-text-muted">
-                Suas informações não são informadas a terceiros. O processamento de dados é totalmente seguro.
-            </div>
-        </div>
-        <button class="uk-button uk-button-primary uk-width-large">Entrar</button>
-    </form>
-    <form class="uk-width-large uk-align-center" id="register-form" method="post" action="{{route('auth.register')}}" style="display: none">
-        @csrf
-        <div class="uk-margin">
-            <label class="uk-form-label">Nome Completo</label>
-            <div class="uk-form-controls uk-margin-small">
-                <input placeholder="Nome" name="name" id="name" type="text" class="uk-input"/>
-            </div>
-        </div>
-        <div class="uk-margin">
-            <label class="uk-form-label">E-mail</label>
-            <div class="uk-form-controls uk-margin-small">
-                <input placeholder="E-mail" name="email" id="email" type="email" class="uk-input"/>
-            </div>
-        </div>
-        <div class="uk-margin">
-            <div class="uk-form-label">Senha</div>
-            <div class="uk-form-controls uk-margin-small uk-form-controls-text">
-                <input placeholder="Senha" name="password" id="password" type="password"  class="uk-input"/>
-            </div>
-        </div>
-        <div class="uk-alert uk-margin" uk-alert>
-            <a href class="uk-alert-close" uk-close></a>
-            <div class="uk-alert-title">Aviso!</div>
-            <div class="uk-alert-description uk-text-muted">
-                Suas informações não são informadas a terceiros. O processamento de dados é totalmente seguro.
-            </div>
-        </div>
-        <button class="uk-button uk-button-primary uk-width-large">Criar Conta</button>
-    </form>
+</div>
+@endsection
+
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('login-btn-action').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('login-btn-action').classList.add('uk-active');
-                document.getElementById('register-form').style.display = 'none';
-                document.getElementById('login-form').style.display = 'block';
-                document.getElementById('register-btn-action').classList.remove('uk-active');
+            // Tab switching functionality
+            const loginBtn = document.getElementById('login-btn-action');
+            const registerBtn = document.getElementById('register-btn-action');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
 
-            });
-            document.getElementById('register-btn-action').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('register-btn-action').classList.toggle('uk-active');
-                document.getElementById('login-form').style.display = 'none';
-                document.getElementById('register-btn-action').classList.add('uk-active');
-                document.getElementById('register-form').style.display = 'block';
-                document.getElementById('login-btn-action').classList.remove('uk-active');
+            if (loginBtn && registerBtn && loginForm && registerForm) {
+                loginBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loginBtn.classList.add('uk-active');
+                    registerBtn.classList.remove('uk-active');
+                    loginForm.style.display = 'block';
+                    registerForm.style.display = 'none';
+                });
 
-            });
+                registerBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    registerBtn.classList.add('uk-active');
+                    loginBtn.classList.remove('uk-active');
+                    registerForm.style.display = 'block';
+                    loginForm.style.display = 'none';
+                });
+            }
         });
-
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.5/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.5/dist/js/uikit-icons.min.js"></script>
-</body>
-</html>
+@endpush

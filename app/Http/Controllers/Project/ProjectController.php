@@ -22,7 +22,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //        todo: fazer storage de projetos e listagem do mesmo
+        return view('projects.create');
     }
 
     /**
@@ -46,7 +46,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('projects.edit', compact('project'));
     }
 
     /**

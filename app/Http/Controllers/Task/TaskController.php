@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Task;
 
 use App\DTO\TaskDTO;
+use App\Enums\PriorityEnum;
+use App\Enums\StatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
@@ -26,7 +28,21 @@ class TaskController extends Controller
 
     public function create()
     {
-       return view('tasks.create');
+        $status = collect(StatusEnum::cases())->map(function ($status) {
+            return (object) [
+                'value' => $status->value,
+                'label' => $status->value
+            ];
+        });
+
+        $priority = collect(PriorityEnum::cases())->map(function ($priority) {
+            return (object) [
+                'value' => $priority->value,
+                'label' => $priority->value
+            ];
+        });
+
+        return view('tasks.create', compact('status', 'priority'));
     }
 
     public function store(StoreTaskRequest $request)
@@ -49,7 +65,21 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        $status = collect(StatusEnum::cases())->map(function ($status) {
+            return (object) [
+                'value' => $status->value,
+                'label' => $status->value
+            ];
+        });
+
+        $priority = collect(PriorityEnum::cases())->map(function ($priority) {
+            return (object) [
+                'value' => $priority->value,
+                'label' => $priority->value
+            ];
+        });
+
+        return view('tasks.edit', compact('task', 'status', 'priority'));
     }
 
     /**
