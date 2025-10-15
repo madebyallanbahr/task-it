@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Project\ProjectController;
+use App\Http\Controllers\Task\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,13 +15,28 @@ Route::prefix('dashboard')->group(function () {
         ->name('dashboard.index')
         ->middleware('auth');
 
-    Route::get('/dashboard/tasks', [DashboardController::class, 'tasks'])
+    Route::get('/tasks', [TaskController::class, 'index'])
         ->name('dashboard.tasks')
         ->middleware('auth');
 
+    Route::get('/tasks/create', [TaskController::class, 'create'])
+    ->name('tasks.create')
+    ->middleware('auth');
 
-    Route::get('/dashboard/projects', [DashboardController::class, 'projects'])
+    Route::post('/tasks/create', [TaskController::class, 'store'])
+        ->name('tasks.store')
+        ->middleware('auth');
+
+    Route::delete('/tasks/delete/{id}', [TaskController::class, 'destroy'])
+        ->name('tasks.destroy')
+        ->middleware('auth');
+
+    Route::get('/projects', [ProjectController::class, 'index'])
         ->name('dashboard.projects')
+        ->middleware('auth');
+
+    Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])
+        ->name('projects.destroy')
         ->middleware('auth');
 });
 

@@ -6,7 +6,7 @@
     <title>taskit</title>
     <link
         rel="stylesheet"
-        href="https://unpkg.com/franken-ui-releases@0.0.13/dist/default.min.css"
+        href="https://unpkg.com/franken-wc@0.0.2/dist/css/neutral.min.css"
     />
 </head>
 <body class="uk-background-default text-primary">

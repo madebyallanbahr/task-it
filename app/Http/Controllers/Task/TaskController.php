@@ -2,35 +2,38 @@
 
 namespace App\Http\Controllers\Task;
 
+use App\DTO\TaskDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use App\Services\TaskService;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private TaskService $taskService;
+    public function __construct(TaskService $taskService)
+    {
+        $this->taskService = $taskService;
+    }
+
     public function index()
     {
-        //
+//        todo: fazer paginação / conclusão de tarefas/mudança de status
+//        $tasks->withPath('/admin/users');
+        return view('tasks.index', ['tasks' => auth()->user()->tasks()->paginate(5)]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+       return view('tasks.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreTaskRequest $request)
     {
-        //
+        $this->taskService->store(TaskDTO::fromRequest($request));
+
+        return redirect()->route('dashboard.index');
     }
 
     /**
@@ -60,8 +63,10 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
-        //
+        Task::find($id)->delete();
+
+        return back();
     }
 }
